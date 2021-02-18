@@ -13,18 +13,18 @@ def client():
                                    secret=credenciais.SECRET)
 
 
-def comprar(quantidade):
+def buy(amount):
     trading_client = client()
-    trading_client.buy_market_order(quantidade)
+    trading_client.buy_market_order(amount)
 
 
-def vender(quantidade):
+def sell(amount):
     trading_client = client()
-    trading_client.sell_market_order(quantidade)
+    trading_client.sell_market_order(amount)
 
 
 def on_open(ws):
-    print("Abriu a conexão")
+    print("Opening connection.")
     json_subscribe = """
 {
     "event": "bts:subscribe",
@@ -37,11 +37,11 @@ def on_open(ws):
 
 
 def on_error(ws, error):
-    print("Error")
+    print("Error.")
 
 
 def on_close(ws):
-    print("Fechou a conexão")
+    print("Connection Closed.")
 
 
 def on_message(ws, message):
@@ -50,11 +50,11 @@ def on_message(ws, message):
     print(price)
 
     if price > 40000.0:
-        vender()
+        sell()
     elif price < 38800.0:
-        comprar()
+        buy()
     else:
-        print("Aguardar.")
+        print("Waiting for the right moment.")
 
 
 if __name__ == "__main__":
